@@ -25,7 +25,7 @@ class PinsController < ApplicationController
   # POST /pins
   # POST /pins.json
   def create
-    @pin = Pin.new(pin_params)
+    @pin = current_user.pins.build(pin_params)
     if @pin.save
       redirect_to @pin, notice: 'Pin was successfully created.'
     else
@@ -47,11 +47,9 @@ class PinsController < ApplicationController
   # DELETE /pins/1.json
   def destroy
     @pin.destroy
-    respond_to do |format|
-      format.html { redirect_to pins_url, notice: 'Pin was successfully destroyed.' }
-      format.json { head :no_content }
+    redirect_to pins_url, notice: 'Pin was successfully destroyed.'
     end
-  end
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.
